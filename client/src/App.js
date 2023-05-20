@@ -14,7 +14,10 @@ function App() {
   const[Telefone, setTelefone] = useState("");
   const[Email, setEmail] = useState("");
 
+  const [listaCadastro, setlistaCadastro] = useState([]);
+
   const addCadastro = () => { 
+    
     axios.post("http://localhost:3001/create", {
     Nome: Nome,
     ID: ID,
@@ -31,6 +34,15 @@ function App() {
    });
  
   };
+
+  const getPessoas = () => {
+    axios.get("http://localhost:3001/pessoas").then((response) => { 
+     setlistaCadastro(response.data); 
+  });
+    
+
+}
+
 
   return (
     <div className="App">
@@ -59,6 +71,27 @@ function App() {
         <button onClick={addCadastro}>Cadastrar</button>
 
       </div>
+      ---------------------------------------------------------------------------------------
+      <div className="Pessoas">
+      <button onClick={getPessoas}>Listar Pessoas</button>
+
+      {listaCadastro.map((val, key) => {
+        return <div className="Pessoa"> 
+       <h3>Nome: {val.Nome}</h3>
+       <h3>ID: {val.ID}</h3>
+       <h3>Cidade: {val.Cidade}</h3>
+       <h3>Bairro: {val.Bairro}</h3>
+       <h3>CEP: {val.CEP}</h3>
+       <h3>Endereço: {val.Endereco}</h3>
+       <h3>Número: {val.Numero}</h3>
+       <h3>Complemento: {val.Complemento}</h3>
+       <h3>Telefone: {val.Telefone}</h3>
+       <h3>E-mail: {val.Email}</h3>
+       </div>
+      })}
+    
+      </div>
+
     </div>
   );
 }

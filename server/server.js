@@ -1,10 +1,14 @@
 const express = require("express");
 const app = express();
 const mysql = require("mysql");
+const cors = require("cors");
+
+app.use(cors());
+app.use(express.json());
 
 const db = mysql.createConnection({
     user: "root",
-    host: "locahost",
+    host: "localhost",
     password: "root",
     database: "cadastro_pessoa",
 });
@@ -23,7 +27,7 @@ app.post("/create", (req, res) => {
 
 
     db.query(
-        "INSERT INTO cadastro_pessoa (Nome, ID, Cidade, Bairro, CEP, Endereco, Numero, Complemento, Telefone, Email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+        "INSERT INTO pessoa (Nome, ID, Cidade, Bairro, CEP, Endereco, Numero, Complemento, Telefone, Email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
         [Nome, ID, Cidade, Bairro, CEP, Endereco, Numero, Complemento, Telefone, Email], (err, result) =>{
             if (err){
                 console.log(err);
@@ -35,6 +39,15 @@ app.post("/create", (req, res) => {
 
 });
 
+app.get("/pessoas", (req, res) => {
+db.query("SELECT * FROM pessoa", (err, result) => {
+    if (err) {
+    console.log(err);
+    } else {
+        res.send(result);
+    }    
+  });
+});
 
 app.listen(3001, () => {
     console.log("funcionando na porta 3001");
