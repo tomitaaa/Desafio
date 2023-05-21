@@ -10,7 +10,7 @@ const db = mysql.createConnection({
     user: "root",
     host: "localhost",
     password: "root",
-    database: "cadastro_pessoa",
+    database: "cadastros",
 });
 
 app.post("/create", (req, res) => { 

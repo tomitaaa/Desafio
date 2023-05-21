@@ -6,7 +6,7 @@
   
  }
  
- .Cadastros {
+ .CadastroContent {
    display: flex;
    flex-direction: column;
    width: 100%;
@@ -14,7 +14,7 @@
 
 
  }
- .Cadastros input {
+ .CadastroContent input {
    width: 450px;
    height: 30px;
    font-size: 20px;
