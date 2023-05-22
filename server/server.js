@@ -148,6 +148,17 @@ app.get("/pessoasv", (req, res) => {
     });
 });
 
+app.get("/produtos", (req, res) => {
+    db.query("SELECT nome FROM produto", (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+
 app.listen(3001, () => {
     console.log("funcionando na porta 3001");
 });

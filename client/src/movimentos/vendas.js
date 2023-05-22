@@ -2,17 +2,45 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Select from "react-select";
 
+function ProdutoSelector({ onSelect }) {
+  const [Produto, setProduto] = useState("");
+  const [ValorUnitario, setValorUnitario] = useState(0);
+
+  const handleSelect = () => {
+    if (!Produto || ValorUnitario <= 0) {
+      console.log("Por favor, selecione um produto válido e informe o valor unitário.");
+      return;
+    }
+
+    onSelect({ Produto, ValorUnitario });
+    setProduto("");
+    setValorUnitario(0);
+  };
+
+  return (
+    <div>
+      <label>Produto:</label>
+      <input
+        type="text"
+        value={Produto}
+        onChange={(event) => setProduto(event.target.value)}
+      />
+    </div>
+  );
+}
+
 function Vendas() {
   const [ID, setID] = useState(0);
   const [DT_venda, setDT_venda] = useState("");
   const [Pessoa, setPessoa] = useState("");
   const [opcoesPessoas, setOpcoesPessoas] = useState([]);
   const [pessoaManual, setPessoaManual] = useState("");
-  const [Produto, setProduto] = useState("");
+  const [Produtos, setProdutos] = useState([]);
   const [Quantidade, setQuantidade] = useState(0);
   const [ValorUnitario, setValorUnitario] = useState(0);
-  const [SubTotal, setSubTotal] = useState(0);
+  const [SubTotalEditable, setSubTotalEditable] = useState(0);
   const [vendasGuardadas, setVendasGuardadas] = useState([]);
+  const [TotalVenda, setTotalVenda] = useState(0);
 
   useEffect(() => {
     axios.get("http://localhost:3001/pessoasv").then((response) => {
@@ -29,37 +57,53 @@ function Vendas() {
     setDT_venda("");
     setPessoa("");
     setPessoaManual("");
-    setProduto("");
+    setProdutos([]);
     setQuantidade(0);
     setValorUnitario(0);
-    setSubTotal(0);
+    setSubTotalEditable(0);
+    setTotalVenda(0);
   };
 
-  const addCadastro = () => {
-    const pessoaSelecionada = pessoaManual ? pessoaManual : (Pessoa && Pessoa.value);
-
-    if (!pessoaSelecionada) {
-      console.log("Por favor, selecione uma pessoa válida.");
-      return;
-    }
+  const addCadastro = (produto) => {
+    const pessoaSelecionada = pessoaManual
+      ? pessoaManual
+      : (Pessoa && Pessoa.value);
 
     const venda = {
       ID: ID,
       DT_venda: DT_venda,
       Pessoa: pessoaSelecionada,
-      Produto: Produto,
       Quantidade: Quantidade,
-      ValorUnitario: ValorUnitario,
-      SubTotal: SubTotal,
+      SubTotal: SubTotalEditable,
     };
 
     setVendasGuardadas([...vendasGuardadas, venda]);
+    setTotalVenda(TotalVenda + SubTotalEditable);
 
     axios.post("http://localhost:3001/createVendas", venda).then(() => {
       console.log("sucesso");
     });
   };
 
+  const handleQuantidadeChange = (event) => {
+    const quantidade = event.target.valueAsNumber;
+    setQuantidade(quantidade);
+  };
+
+  const handleValorUnitarioChange = (event) => {
+    const valorUnitario = event.target.valueAsNumber;
+    setValorUnitario(valorUnitario);
+  };
+
+  useEffect(() => {
+    const novoSubTotal = Quantidade * ValorUnitario;
+    setSubTotalEditable(novoSubTotal);
+    const novoTotalVenda = vendasGuardadas.reduce(
+      (total, venda) => total + venda.SubTotal,
+      novoSubTotal
+    );
+    setTotalVenda(novoTotalVenda);
+  }, [Quantidade, ValorUnitario, vendasGuardadas]);
 
   return (
     <div>
@@ -87,50 +131,32 @@ function Vendas() {
           value={Pessoa}
           onChange={(selectedOption) => setPessoa(selectedOption)}
         />
-        <label>Produto:</label>
-        <input
-          type="text"
-          value={Produto}
-          onChange={(event) => setProduto(event.target.value)}
-        />
+        <ProdutoSelector onSelect={addCadastro} />
         <label>Quantidade:</label>
         <input
           type="number"
           value={Quantidade}
-          onChange={(event) => {
-            const quantidade = event.target.valueAsNumber;
-            setQuantidade(quantidade);
-            setSubTotal(quantidade * ValorUnitario);
-          }}
+          onChange={handleQuantidadeChange}
         />
-        <label>Valor unitário:</label>
+        <label>Valor Unitário:</label>
         <input
           type="number"
           value={ValorUnitario}
-          onChange={(event) => {
-            const valorUnitario = event.target.valueAsNumber;
-            setValorUnitario(valorUnitario);
-            setSubTotal(Quantidade * valorUnitario);
-          }}
+          onChange={handleValorUnitarioChange}
         />
         <label>Sub-total:</label>
-        <input type="text" value={SubTotal} readOnly />
+        <input
+          type="number"
+          value={SubTotalEditable}
+          onChange={(event) => setSubTotalEditable(event.target.valueAsNumber)}
+        />
+
+        <label>Total da Venda:</label>
+        <input type="text" value={TotalVenda} readOnly />
         <div className="Buttons">
           <button onClick={addCadastro}>Cadastrar</button>
           <button onClick={handleCancel}>Cancelar</button>
         </div>
-      </div>
-      <div>
-        <h3>Vendas Guardadas:</h3>
-        <ul>
-          {vendasGuardadas.map((venda, index) => (
-            <li key={index}>
-              ID: {venda.ID}, Data da venda: {venda.DT_venda}, Pessoa: {venda.Pessoa},
-              Produto: {venda.Produto}, Quantidade: {venda.Quantidade}, Valor unitário: {venda.ValorUnitario},
-              Sub-total: {venda.SubTotal}
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );
