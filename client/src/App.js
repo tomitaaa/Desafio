@@ -1,170 +1,91 @@
 import { useState } from "react";
 import "./App.css";
 import axios from "axios";
+import Pessoas from "./cadastro/Pessoas";
+import Dropdown from 'react-bootstrap/Dropdown';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Bairros from "./cadastro/Bairros";
+import Cidades from "./cadastro/Cidades";
+import Produtos from "./cadastro/Produtos";
 
 function App() {
+
   const [activeTab, setActiveTab] = useState("cadastro");
-  const [showCadastro, setShowCadastro] = useState(false);
   const [cidades, setCidades] = useState([]);
-  const [bairros, setBairros] = useState([]);
-  const [Nome, setNome] = useState("");
-  const [ID, setID] = useState(0);
-  const [Cidade, setCidade] = useState("");
-  const [Bairro, setBairro] = useState("");
-  const [CEP, setCEP] = useState("");
-  const [Endereco, setEndereco] = useState("");
-  const [Numero, setNumero] = useState("");
-  const [Complemento, setComplemento] = useState("");
-  const [Telefone, setTelefone] = useState("");
-  const [Email, setEmail] = useState("");
+  const [bairros, setBairros] = useState([]); 
   const [listaCadastro, setListaCadastro] = useState([]);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
-    setShowCadastro(tab === "cadastro");
-  };
-
-  const handleCancel = () => {
-    setNome("");
-    setID(0);
-    setCidade("");
-    setBairro("");
-    setCEP("");
-    setEndereco("");
-    setNumero("");
-    setComplemento("");
-    setTelefone("");
-    setEmail("");
-  };
-
-  const addCadastro = () => {
-    axios
-      .post("http://localhost:3001/create", {
-        Nome: Nome,
-        ID: ID,
-        Cidade: Cidade,
-        Bairro: Bairro,
-        CEP: CEP,
-        Endereco: Endereco,
-        Numero: Numero,
-        Complemento: Complemento,
-        Telefone: Telefone,
-        Email: Email,
-      })
-      .then(() => {
-        console.log("sucesso");
-      });
   };
 
   const getPessoas = () => {
     axios.get("http://localhost:3001/pessoas").then((response) => {
-      setListaCadastro(response.data);
-      const uniqueCidades = Array.from(
-        new Set(response.data.map((val) => val.Cidade))
-      );
-      const uniqueBairros = Array.from(
-        new Set(response.data.map((val) => val.Bairro))
-      );
-      setCidades(uniqueCidades);
-      setBairros(uniqueBairros);
+      setListaCadastro(response.data);  
     });
   };
 
   return (
     <div className="App">
       <div className="Tabs">
-        <button
-          className={activeTab === "cadastro" ? "active" : ""}
-          onClick={() => handleTabChange("cadastro")}
-        >
-          Cadastro
-        </button>
-        <button
-          className={activeTab === "movimento" ? "active" : ""}
-          onClick={() => handleTabChange("movimento")}
-        >
-          Movimento
-        </button>
-        <button
-          className={activeTab === "relatorios" ? "active" : ""}
-          onClick={() => handleTabChange("relatorios")}
-        >
-          Relatórios
-        </button>
+      <Dropdown>
+      <Dropdown.Toggle variant="secondary" id="Cadastros">
+        Cadastros
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={() => handleTabChange("cadastro.bairros")}>Bairros</Dropdown.Item>
+        <Dropdown.Item onClick={() => handleTabChange("cadastro.cidades")}>Cidades</Dropdown.Item>
+        <Dropdown.Item onClick={() => handleTabChange("cadastro.pessoas")}>Pessoas</Dropdown.Item>
+        <Dropdown.Item onClick={() => handleTabChange("cadastro.produtos")}>Produtos</Dropdown.Item>
+      </Dropdown.Menu>
+      </Dropdown>
+        
+      <Dropdown>
+      <Dropdown.Toggle variant="secondary" id="Movimentos">
+        Movimentos
+       </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+        <Dropdown.Item onClick={() => handleTabChange("")}></Dropdown.Item>
+
+        </Dropdown.Menu>
+        </Dropdown>
+        
+        <Dropdown>
+      <Dropdown.Toggle variant="secondary" id="Relatórios">
+        Relatórios
+       </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+        <Dropdown.Item onClick={() => handleTabChange("")}></Dropdown.Item>
+
+        </Dropdown.Menu>
+        </Dropdown>
       </div>
 
       <div className="Content">
-        {showCadastro && (
-          <div className="Cadastros">
-            <div className="CadastroContent">
-              <label> Nome:</label>
-              <input
-                type="text"
-                value={Nome}
-                onChange={(event) => setNome(event.target.value)}
-              />
-              <label> ID:</label>
-              <input
-                type="number"
-                value={ID}
-                onChange={(event) => setID(event.target.value)}
-              />
-              <label> Cidade:</label>
-              <input
-                type="text"
-                value={Cidade}
-                onChange={(event) => setCidade(event.target.value)}
-              />
-              <label> Bairro:</label>
-              <input
-                type="text"
-                value={Bairro}
-                onChange={(event) => setBairro(event.target.value)}
-              />
-              <label> CEP:</label>
-              <input
-                type="text"
-                value={CEP}
-                onChange={(event) => setCEP(event.target.value)}
-              />
-              <label> Endereço:</label>
-              <input
-                type="text"
-                value={Endereco}
-                onChange={(event) => setEndereco(event.target.value)}
-              />
-              <label> Número:</label>
-              <input
-                type="text"
-                value={Numero}
-                onChange={(event) => setNumero(event.target.value)}
-              />
-              <label> Complemento:</label>
-              <input
-                type="text"
-                value={Complemento}
-                onChange={(event) => setComplemento(event.target.value)}
-              />
-              <label> Telefone:</label>
-              <input
-                type="text"
-                value={Telefone}
-                onChange={(event) => setTelefone(event.target.value)}
-              />
-              <label> Email:</label>
-              <input
-                type="text"
-                value={Email}
-                onChange={(event) => setEmail(event.target.value)}
-              />
+        {
+          activeTab === "cadastro.bairros" && (
+            <Bairros/>
+          )
+        }
+{
+          activeTab === "cadastro.pessoas" && (
+            <Pessoas/>
+          )
+        }
+        {
+          activeTab === "cadastro.cidades" && (
+            <Cidades/>
+          )
+        }
+        {
+          activeTab === "cadastro.produtos" && (
+            <Produtos/>
+          )
+        }
 
-              <div className="Buttons">
-                <button onClick={addCadastro}>Cadastrar</button>
-                <button onClick={handleCancel}>Cancelar</button>
-              </div>
-            </div>
-          </div>
-        )}
 
         {activeTab === "movimento" && (
           <div className="Movimento">
