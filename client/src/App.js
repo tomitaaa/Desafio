@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Bairros from "./cadastro/Bairros";
 import Cidades from "./cadastro/Cidades";
 import Produtos from "./cadastro/Produtos";
-
+import Vendas from "./cadastro/Vendas";
 function App() {
 
   const [activeTab, setActiveTab] = useState("cadastro");
@@ -38,6 +38,7 @@ function App() {
         <Dropdown.Item onClick={() => handleTabChange("cadastro.cidades")}>Cidades</Dropdown.Item>
         <Dropdown.Item onClick={() => handleTabChange("cadastro.pessoas")}>Pessoas</Dropdown.Item>
         <Dropdown.Item onClick={() => handleTabChange("cadastro.produtos")}>Produtos</Dropdown.Item>
+        <Dropdown.Item onClick={() => handleTabChange("cadastro.vendas")}>Vendas</Dropdown.Item>
       </Dropdown.Menu>
       </Dropdown>
         
@@ -83,6 +84,11 @@ function App() {
         {
           activeTab === "cadastro.produtos" && (
             <Produtos/>
+          )
+        }
+        {
+          activeTab === "cadastro.vendas" && (
+            <Vendas/>
           )
         }
 

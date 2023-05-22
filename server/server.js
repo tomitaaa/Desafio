@@ -91,6 +91,23 @@ app.post("/createProdutos", (req, res) => {
 
 });
 
+app.post("/createVendas", (req, res) => {
+    const ID = req.body.ID;
+    const DT_venda = req.body.DT_venda;
+    const Pessoa = req.body.Pessoa;
+    db.query(
+        "INSERT INTO venda (ID, dt_venda, pessoa) VALUES (?, ?, ?)", 
+        [ID, DT_venda, Pessoa], (err, result) =>{
+            if (err){
+                console.log(err);
+            } else {
+            res.send("valores inseridos");
+         }    
+        }
+    );
+
+});
+
 
 
 //abaixo é a listagem dos dados, mover pra Movimentos depois
