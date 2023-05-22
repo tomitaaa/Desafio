@@ -8,14 +8,14 @@ function Bairros() {
   const handleCancel = () => {
     setID(0);
     setNome("");
-    
+
   };
 
   const addCadastro = () => {
     axios
       .post("http://localhost:3001/createBairros", {
         ID: ID,
-        Nome: Nome, 
+        Nome: Nome,
       })
       .then(() => {
         console.log("sucesso");
@@ -23,33 +23,33 @@ function Bairros() {
   };
 
 
-return(
-<div>
+  return (
+    <div>
 
-<div className="CadastroBairro">
-     <label> ID:</label>
-     <input
-        type="number"
-        value={ID}
-        onChange={(event) => setID(event.target.value)}
+      <div className="CadastroBairro">
+        <label> ID:</label>
+        <input
+          type="number"
+          value={ID}
+          onChange={(event) => setID(event.target.value)}
         />
-     <label> Nome:</label>
-     <input
-        type="text"
-        value={Nome}
-        onChange={(event) => setNome(event.target.value)}
+        <label> Nome:</label>
+        <input
+          type="text"
+          value={Nome}
+          onChange={(event) => setNome(event.target.value)}
         />
-  <div className="Buttons">
-        <button onClick={addCadastro}>Cadastrar</button>
-        <button onClick={handleCancel}>Cancelar</button>
-  </div>
+        <div className="Buttons">
+          <button onClick={addCadastro}>Cadastrar</button>
+          <button onClick={handleCancel}>Cancelar</button>
+        </div>
 
 
-</div>
+      </div>
 
-</div>
+    </div>
 
-)
+  )
 
 }
 

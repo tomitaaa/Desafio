@@ -2,33 +2,33 @@ import { useState } from "react";
 import axios from "axios";
 
 function Cidades() {
-    const [ID, setID] = useState(0);
-    const [Nome, setNome] = useState("");
-    const [Sigla, setSigla] = useState("");
+  const [ID, setID] = useState(0);
+  const [Nome, setNome] = useState("");
+  const [Sigla, setSigla] = useState("");
 
 
-    const handleCancel = () => {
-        setID(0);
-        setNome("");
-        setSigla("");
-        
-      };
+  const handleCancel = () => {
+    setID(0);
+    setNome("");
+    setSigla("");
 
-      const addCadastro = () => {
-        axios
-          .post("http://localhost:3001/createCidades", {
-            ID: ID,
-            Nome: Nome,
-            Sigla: Sigla  
-          })
-          .then(() => {
-            console.log("sucesso");
-          });
-      };
+  };
 
-    return(
+  const addCadastro = () => {
+    axios
+      .post("http://localhost:3001/createCidades", {
+        ID: ID,
+        Nome: Nome,
+        Sigla: Sigla
+      })
+      .then(() => {
+        console.log("sucesso");
+      });
+  };
+
+  return (
     <div>
-        <div className="CadastroCidade">
+      <div className="CadastroCidade">
         <label> ID:</label>
         <input
           type="number"
@@ -47,20 +47,20 @@ function Cidades() {
           value={Sigla}
           onChange={(event) => setSigla(event.target.value)}
         />
-    <div className="Buttons">
+        <div className="Buttons">
           <button onClick={addCadastro}>Cadastrar</button>
           <button onClick={handleCancel}>Cancelar</button>
         </div>
-    
-    
-     </div>
-        
-   
+
+
+      </div>
+
+
     </div>
-    
-    )
-    
-    } 
-    
-    
-    export default Cidades;
+
+  )
+
+}
+
+
+export default Cidades;

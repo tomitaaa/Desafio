@@ -24,79 +24,79 @@ function App() {
   return (
     <div className="App">
       <div className="Tabs">
-      <Dropdown>
-      <Dropdown.Toggle variant="secondary" id="Cadastros">
-        Cadastros
-      </Dropdown.Toggle>
+        <Dropdown>
+          <Dropdown.Toggle variant="secondary" id="Cadastros">
+            Cadastros
+          </Dropdown.Toggle>
 
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={() => handleTabChange("cadastro.bairros")}>Bairros</Dropdown.Item>
-        <Dropdown.Item onClick={() => handleTabChange("cadastro.cidades")}>Cidades</Dropdown.Item>
-        <Dropdown.Item onClick={() => handleTabChange("cadastro.pessoas")}>Pessoas</Dropdown.Item>
-        <Dropdown.Item onClick={() => handleTabChange("cadastro.produtos")}>Produtos</Dropdown.Item>
-      </Dropdown.Menu>
-      </Dropdown>
-        
-      <Dropdown>
-      <Dropdown.Toggle variant="secondary" id="Movimentos">
-        Movimentos
-       </Dropdown.Toggle>
-
-        <Dropdown.Menu>
-        <Dropdown.Item onClick={() => handleTabChange("movimentos.vendas")}>Vendas</Dropdown.Item>
-        </Dropdown.Menu>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleTabChange("cadastro.bairros")}>Bairros</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleTabChange("cadastro.cidades")}>Cidades</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleTabChange("cadastro.pessoas")}>Pessoas</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleTabChange("cadastro.produtos")}>Produtos</Dropdown.Item>
+          </Dropdown.Menu>
         </Dropdown>
-        
-      <Dropdown>
-      <Dropdown.Toggle variant="secondary" id="Relatórios">
-        Relatórios
-      </Dropdown.Toggle>
 
-      <Dropdown.Menu>
-      <Dropdown.Item onClick={() => handleTabChange("relatorios.listaPessoas")}>Lista de Pessoas</Dropdown.Item>
-      <Dropdown.Item onClick={() => handleTabChange("relatorios.vendas")}>Lista de Vendas</Dropdown.Item>
-        </Dropdown.Menu>
+        <Dropdown>
+          <Dropdown.Toggle variant="secondary" id="Movimentos">
+            Movimentos
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleTabChange("movimentos.vendas")}>Vendas</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+
+        <Dropdown>
+          <Dropdown.Toggle variant="secondary" id="Relatórios">
+            Relatórios
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleTabChange("relatorios.listaPessoas")}>Lista de Pessoas</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleTabChange("relatorios.vendas")}>Lista de Vendas</Dropdown.Item>
+          </Dropdown.Menu>
         </Dropdown>
       </div>
 
       <div className="Content">
         {
           activeTab === "cadastro.bairros" && (
-            <Bairros/>
+            <Bairros />
           )
         }
 
         {
           activeTab === "cadastro.pessoas" && (
-            <Pessoas/>
+            <Pessoas />
           )
         }
 
         {
           activeTab === "cadastro.cidades" && (
-            <Cidades/>
+            <Cidades />
           )
         }
 
         {
           activeTab === "cadastro.produtos" && (
-            <Produtos/>
+            <Produtos />
           )
         }
 
         {
           activeTab === "movimentos.vendas" && (
-            <Vendas/>
+            <Vendas />
           )
         }
-        
+
 
         {activeTab === "relatorios.listaPessoas" && (
-          <ListaPessoas/>
+          <ListaPessoas />
 
         )}
         {activeTab === "relatorios.listaVendas" && (
-          <ListaVendas/>
+          <ListaVendas />
 
         )}
       </div>

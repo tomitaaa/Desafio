@@ -13,7 +13,7 @@ const db = mysql.createConnection({
     database: "cadastros",
 });
 
-app.post("/createPessoa", (req, res) => { 
+app.post("/createPessoa", (req, res) => {
     const Nome = req.body.Nome;
     const ID = req.body.ID;
     const Cidade = req.body.Cidade;
@@ -26,13 +26,13 @@ app.post("/createPessoa", (req, res) => {
     const Email = req.body.Email;
 
     db.query(
-        "INSERT INTO pessoa (Nome, ID, Cidade, Bairro, CEP, Endereco, Numero, Complemento, Telefone, Email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-        [Nome, ID, Cidade, Bairro, CEP, Endereco, Numero, Complemento, Telefone, Email], (err, result) =>{
-            if (err){
+        "INSERT INTO pessoa (Nome, ID, Cidade, Bairro, CEP, Endereco, Numero, Complemento, Telefone, Email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [Nome, ID, Cidade, Bairro, CEP, Endereco, Numero, Complemento, Telefone, Email], (err, result) => {
+            if (err) {
                 console.log(err);
             } else {
-            res.send("valores inseridos");
-         }    
+                res.send("valores inseridos");
+            }
         }
     );
 
@@ -44,13 +44,13 @@ app.post("/createCidades", (req, res) => {
     const Sigla = req.body.Sigla;
 
     db.query(
-        "INSERT INTO cidade (ID, Nome, Sigla) VALUES (?, ?, ?)", 
-        [ID, Nome, Sigla], (err, result) =>{
-            if (err){
+        "INSERT INTO cidade (ID, Nome, Sigla) VALUES (?, ?, ?)",
+        [ID, Nome, Sigla], (err, result) => {
+            if (err) {
                 console.log(err);
             } else {
-            res.send("valores inseridos");
-         }    
+                res.send("valores inseridos");
+            }
         }
     );
 
@@ -61,13 +61,13 @@ app.post("/createBairros", (req, res) => {
     const Nome = req.body.Nome;
 
     db.query(
-        "INSERT INTO bairro (ID, Nome) VALUES (?, ?)", 
-        [ID, Nome], (err, result) =>{
-            if (err){
+        "INSERT INTO bairro (ID, Nome) VALUES (?, ?)",
+        [ID, Nome], (err, result) => {
+            if (err) {
                 console.log(err);
             } else {
-            res.send("valores inseridos");
-         }    
+                res.send("valores inseridos");
+            }
         }
     );
 
@@ -79,13 +79,13 @@ app.post("/createProdutos", (req, res) => {
     const Nome = req.body.Nome;
     const VR_venda = req.body.VR_venda;
     db.query(
-        "INSERT INTO produto (ID, Nome, vr_venda) VALUES (?, ?, ?)", 
-        [ID, Nome, VR_venda], (err, result) =>{
-            if (err){
+        "INSERT INTO produto (ID, Nome, vr_venda) VALUES (?, ?, ?)",
+        [ID, Nome, VR_venda], (err, result) => {
+            if (err) {
                 console.log(err);
             } else {
-            res.send("valores inseridos");
-         }    
+                res.send("valores inseridos");
+            }
         }
     );
 
@@ -96,13 +96,13 @@ app.post("/createVendas", (req, res) => {
     const DT_venda = req.body.DT_venda;
     const Pessoa = req.body.Pessoa;
     db.query(
-        "INSERT INTO venda (ID, dt_venda, pessoa) VALUES (?, ?, ?)", 
-        [ID, DT_venda, Pessoa], (err, result) =>{
-            if (err){
+        "INSERT INTO venda (ID, dt_venda, pessoa) VALUES (?, ?, ?)",
+        [ID, DT_venda, Pessoa], (err, result) => {
+            if (err) {
                 console.log(err);
             } else {
-            res.send("valores inseridos");
-         }    
+                res.send("valores inseridos");
+            }
         }
     );
 
@@ -111,33 +111,41 @@ app.post("/createVendas", (req, res) => {
 app.get("/cidades", (req, res) => {
     db.query("SELECT * FROM cidade", (err, result) => {
         if (err) {
-        console.log(err);
+            console.log(err);
         } else {
             res.send(result);
-        }    
-      });
+        }
     });
+});
 
-    app.get("/bairros", (req, res) => {
-        db.query("SELECT * FROM bairro", (err, result) => {
-            if (err) {
+app.get("/bairros", (req, res) => {
+    db.query("SELECT * FROM bairro", (err, result) => {
+        if (err) {
             console.log(err);
-            } else {
-                res.send(result);
-            }    
-          });
-        });
+        } else {
+            res.send(result);
+        }
+    });
+});
 
- 
-//abaixo é a listagem dos dados, mover pra Movimentos depois
 app.get("/listarPessoas", (req, res) => {
-db.query("SELECT * FROM pessoa", (err, result) => {
-    if (err) {
-    console.log(err);
-    } else {
-        res.send(result);
-    }    
-  });
+    db.query("SELECT * FROM pessoa", (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+app.get("/pessoasv", (req, res) => {
+    db.query("SELECT nome FROM pessoa", (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
 });
 
 app.listen(3001, () => {

@@ -2,39 +2,39 @@ import { useState } from "react";
 import axios from "axios";
 
 function Produtos() {
-    const [ID, setID] = useState(0);
-    const [Nome, setNome] = useState("");
-    const [VR_venda, setVR_venda] = useState("");
+  const [ID, setID] = useState(0);
+  const [Nome, setNome] = useState("");
+  const [VR_venda, setVR_venda] = useState("");
 
-    const handleCancel = () => {
-        setID(0);
-        setNome("");
-        setVR_venda(0);
-        
-      };
-     
-    const addCadastro = () => {
-        axios
-          .post("http://localhost:3001/createProdutos", {
-            ID: ID,
-            Nome: Nome,
-            VR_venda: VR_venda  
-          })
-          .then(() => {
-            console.log("sucesso");
-          });
-      };
+  const handleCancel = () => {
+    setID(0);
+    setNome("");
+    setVR_venda(0);
 
-    return(
+  };
+
+  const addCadastro = () => {
+    axios
+      .post("http://localhost:3001/createProdutos", {
+        ID: ID,
+        Nome: Nome,
+        VR_venda: VR_venda
+      })
+      .then(() => {
+        console.log("sucesso");
+      });
+  };
+
+  return (
     <div>
-     <div className="CadastroProdutos">
+      <div className="CadastroProdutos">
         <label> ID:</label>
         <input
           type="number"
           value={ID}
           onChange={(event) => setID(event.target.value)}
-        />   
-    <label> Nome:</label>
+        />
+        <label> Nome:</label>
         <input
           type="text"
           value={Nome}
@@ -54,10 +54,10 @@ function Produtos() {
       </div>
 
     </div>
-    
-    )
-    
-    }
-    
-    
-    export default Produtos;
+
+  )
+
+}
+
+
+export default Produtos;

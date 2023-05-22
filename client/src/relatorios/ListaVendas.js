@@ -3,13 +3,13 @@ import axios from "axios";
 
 function ListaVendas() {
 
-return (
-<div>
+    return (
+        <div>
 
 
-    
-</div>
-)
+
+        </div>
+    )
 
 
 }
