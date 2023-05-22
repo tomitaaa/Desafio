@@ -108,8 +108,27 @@ app.post("/createVendas", (req, res) => {
 
 });
 
+app.get("/cidades", (req, res) => {
+    db.query("SELECT * FROM cidade", (err, result) => {
+        if (err) {
+        console.log(err);
+        } else {
+            res.send(result);
+        }    
+      });
+    });
 
+    app.get("/bairros", (req, res) => {
+        db.query("SELECT * FROM bairro", (err, result) => {
+            if (err) {
+            console.log(err);
+            } else {
+                res.send(result);
+            }    
+          });
+        });
 
+ 
 //abaixo é a listagem dos dados, mover pra Movimentos depois
 app.get("/listarPessoas", (req, res) => {
 db.query("SELECT * FROM pessoa", (err, result) => {

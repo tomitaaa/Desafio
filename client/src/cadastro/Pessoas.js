@@ -1,24 +1,53 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../App.css";
 import axios from "axios";
-
+import Select from 'react-select';
 function Pessoas() {
     const [Nome, setNome] = useState("");
     const [ID, setID] = useState(0);
-    const [Cidade, setCidade] = useState("");
-    const [Bairro, setBairro] = useState("");
     const [CEP, setCEP] = useState("");
     const [Endereco, setEndereco] = useState("");
     const [Numero, setNumero] = useState("");
     const [Complemento, setComplemento] = useState("");
     const [Telefone, setTelefone] = useState("");
     const [Email, setEmail] = useState("");
+    const [Cidade, setCidade] = useState(null);
+    const [Bairro, setBairro] = useState(null);
+   
+    const [bairroManual, setBairroManual] = useState("");
+    const [cidadeManual, setCidadeManual] = useState(""); 
+
+    const [opcoesBairros, setOpcoesBairros] = useState([]);
+    const [opcoesCidades, setOpcoesCidades] = useState([]);
+
+    useEffect(() => {
+      axios.get("http://localhost:3001/bairros").then((response) => {
+        const dadosBairros = response.data.map((bairro) => ({
+          label: bairro.nome,
+          value: bairro.id,
+        }));
+        setOpcoesBairros(dadosBairros);
+      });
+    
+      axios.get("http://localhost:3001/cidades").then((response) => {
+        const dadosCidades = response.data.map((cidade) => ({
+          label: cidade.nome,
+          value: cidade.id,
+        }));
+        setOpcoesCidades(dadosCidades);
+      });
+    }, []);
+
+
+
+
+
 
     const handleCancel = () => {
         setNome("");
         setID(0);
-        setCidade("");
-        setBairro("");
+        setCidadeManual("");
+        setBairroManual("");
         setCEP("");
         setEndereco("");
         setNumero("");
@@ -28,12 +57,21 @@ function Pessoas() {
       };
 
       const addCadastro = () => {
+
+        const bairroSelecionado = bairroManual ? bairroManual : (Bairro && Bairro.value);
+        const cidadeSelecionada = cidadeManual ? cidadeManual : (Cidade && Cidade.value);
+      
+        if (!bairroSelecionado || !cidadeSelecionada) {
+          console.log("Por favor, selecione um bairro e uma cidade válidos.");
+          return;
+        }
+
         axios
           .post("http://localhost:3001/createPessoa", {
             Nome: Nome,
             ID: ID,
-            Cidade: Cidade,
-            Bairro: Bairro,
+            Cidade: cidadeSelecionada,
+            Bairro: bairroSelecionado,
             CEP: CEP,
             Endereco: Endereco,
             Numero: Numero,
@@ -62,17 +100,30 @@ function Pessoas() {
           onChange={(event) => setID(event.target.value)}
         />
         <label> Cidade:</label>
-        <input
-          type="text"
-          value={Cidade}
-          onChange={(event) => setCidade(event.target.value)}
-        />
-        <label> Bairro:</label>
-        <input
-          type="text"
-          value={Bairro}
-          onChange={(event) => setBairro(event.target.value)}
-        />
+<input
+  type="text"
+  value={cidadeManual}
+  onChange={(event) => setCidadeManual(event.target.value)}
+/>
+<Select
+  options={opcoesCidades}
+  value={Cidade}
+  onChange={(selectedOption) => setCidade(selectedOption)}
+/>
+
+<label> Bairro:</label>
+<input
+  type="text"
+  value={bairroManual}
+  onChange={(event) => setBairroManual(event.target.value)}
+/>
+<Select
+  options={opcoesBairros}
+  value={Bairro}
+  onChange={(selectedOption) => setBairro(selectedOption)}
+/>
+
+
         <label> CEP:</label>
         <input
           type="text"
