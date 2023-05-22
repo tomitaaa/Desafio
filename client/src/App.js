@@ -8,22 +8,18 @@ import Bairros from "./cadastro/Bairros";
 import Cidades from "./cadastro/Cidades";
 import Produtos from "./cadastro/Produtos";
 import Vendas from "./movimentos/vendas";
+import ListaPessoas from "./relatorios/ListaPessoas";
+import ListaVendas from "./relatorios/ListaVendas";
+
+
 function App() {
 
   const [activeTab, setActiveTab] = useState("cadastro");
-  const [cidades, setCidades] = useState([]);
-  const [bairros, setBairros] = useState([]); 
-  const [listaCadastro, setListaCadastro] = useState([]);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
 
-  const getPessoas = () => {
-    axios.get("http://localhost:3001/pessoas").then((response) => {
-      setListaCadastro(response.data);  
-    });
-  };
 
   return (
     <div className="App">
@@ -51,14 +47,14 @@ function App() {
         </Dropdown.Menu>
         </Dropdown>
         
-        <Dropdown>
+      <Dropdown>
       <Dropdown.Toggle variant="secondary" id="Relatórios">
         Relatórios
-       </Dropdown.Toggle>
+      </Dropdown.Toggle>
 
-        <Dropdown.Menu>
-        <Dropdown.Item onClick={() => handleTabChange("")}></Dropdown.Item>
-
+      <Dropdown.Menu>
+      <Dropdown.Item onClick={() => handleTabChange("relatorios.listaPessoas")}>Lista de Pessoas</Dropdown.Item>
+      <Dropdown.Item onClick={() => handleTabChange("relatorios.vendas")}>Lista de Vendas</Dropdown.Item>
         </Dropdown.Menu>
         </Dropdown>
       </div>
@@ -95,25 +91,13 @@ function App() {
         }
         
 
-        {activeTab === "relatorios" && (
-          <div className="Relatorios">
-            <button onClick={getPessoas}>Listar Pessoas</button>
+        {activeTab === "relatorios.listaPessoas" && (
+          <ListaPessoas/>
 
-            {listaCadastro.map((val, key) => (
-              <div className="Pessoa" key={val.ID}>
-                <h3>Nome: {val.Nome}</h3>
-                <h3>ID: {val.ID}</h3>
-                <h3>Cidade: {val.Cidade}</h3>
-                <h3>Bairro: {val.Bairro}</h3>
-                <h3>CEP: {val.CEP}</h3>
-                <h3>Endereço: {val.Endereco}</h3>
-                <h3>Número: {val.Numero}</h3>
-                <h3>Complemento: {val.Complemento}</h3>
-                <h3>Telefone: {val.Telefone}</h3>
-                <h3>E-mail: {val.Email}</h3>
-              </div>
-            ))}
-          </div>
+        )}
+        {activeTab === "relatorios.listaVendas" && (
+          <ListaVendas/>
+
         )}
       </div>
     </div>

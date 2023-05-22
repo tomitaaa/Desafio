@@ -111,7 +111,7 @@ app.post("/createVendas", (req, res) => {
 
 
 //abaixo é a listagem dos dados, mover pra Movimentos depois
-app.get("/pessoas", (req, res) => {
+app.get("/listarPessoas", (req, res) => {
 db.query("SELECT * FROM pessoa", (err, result) => {
     if (err) {
     console.log(err);
