@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Bairros from "./cadastro/Bairros";
 import Cidades from "./cadastro/Cidades";
 import Produtos from "./cadastro/Produtos";
-import Vendas from "./cadastro/Vendas";
+import Vendas from "./movimentos/vendas";
 function App() {
 
   const [activeTab, setActiveTab] = useState("cadastro");
@@ -38,7 +38,6 @@ function App() {
         <Dropdown.Item onClick={() => handleTabChange("cadastro.cidades")}>Cidades</Dropdown.Item>
         <Dropdown.Item onClick={() => handleTabChange("cadastro.pessoas")}>Pessoas</Dropdown.Item>
         <Dropdown.Item onClick={() => handleTabChange("cadastro.produtos")}>Produtos</Dropdown.Item>
-        <Dropdown.Item onClick={() => handleTabChange("cadastro.vendas")}>Vendas</Dropdown.Item>
       </Dropdown.Menu>
       </Dropdown>
         
@@ -48,8 +47,7 @@ function App() {
        </Dropdown.Toggle>
 
         <Dropdown.Menu>
-        <Dropdown.Item onClick={() => handleTabChange("")}></Dropdown.Item>
-
+        <Dropdown.Item onClick={() => handleTabChange("movimentos.vendas")}>Vendas</Dropdown.Item>
         </Dropdown.Menu>
         </Dropdown>
         
@@ -71,33 +69,31 @@ function App() {
             <Bairros/>
           )
         }
-{
+
+        {
           activeTab === "cadastro.pessoas" && (
             <Pessoas/>
           )
         }
+
         {
           activeTab === "cadastro.cidades" && (
             <Cidades/>
           )
         }
+
         {
           activeTab === "cadastro.produtos" && (
             <Produtos/>
           )
         }
+
         {
-          activeTab === "cadastro.vendas" && (
+          activeTab === "movimentos.vendas" && (
             <Vendas/>
           )
         }
-
-
-        {activeTab === "movimento" && (
-          <div className="Movimento">
-            {/* Conteúdo da aba de Movimento */}
-          </div>
-        )}
+        
 
         {activeTab === "relatorios" && (
           <div className="Relatorios">
