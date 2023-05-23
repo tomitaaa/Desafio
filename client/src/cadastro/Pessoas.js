@@ -19,7 +19,7 @@ function Pessoas() {
   const [cidadeManual, setCidadeManual] = useState("");
   const [opcoesBairros, setOpcoesBairros] = useState([]);
   const [opcoesCidades, setOpcoesCidades] = useState([]);
-
+  const [mensagem, setMensagem] = useState("");
   useEffect(() => {
     axios.get("http://localhost:3001/bairros").then((response) => {
       const dadosBairros = response.data.map((bairro) => ({
@@ -88,25 +88,29 @@ function Pessoas() {
         Email: Email,
       })
       .then(() => {
-        console.log("sucesso");
+        setMensagem("Pessoa cadastrado com sucesso!");
+      })
+      .catch((error) => {
+        console.error("Pessoa ao cadastrar o bairro:", error);
+        setMensagem("Pessoa ao cadastrar o bairro");
       });
   };
 
   return (
     <div className="CadastroContent">
-      <label> Nome:</label>
+      <label> Nome da pessoa: </label>
       <input
         type="text"
         value={Nome}
         onChange={(event) => setNome(event.target.value)}
       />
-      <label> ID:</label>
+      <label> ID da pessoa: </label>
       <input
         type="number"
         value={ID}
         onChange={(event) => setID(event.target.value)}
       />
-      <label> Cidade:</label>
+      <label> Cidade :</label>
       <input
         type="text"
         value={cidadeManual || (Cidade && Cidade.label) || ""}
@@ -118,7 +122,7 @@ function Pessoas() {
         onChange={handleCidadeChange}
       />
 
-      <label> Bairro:</label>
+      <label> Bairro: </label>
       <input
         type="text"
         value={bairroManual || (Bairro && Bairro.label) || ""}
@@ -130,7 +134,7 @@ function Pessoas() {
         onChange={handleBairroChange}
       />
 
-      <label> CEP:</label>
+      <label> CEP: </label>
       <input
         type="text"
         value={CEP}
@@ -142,25 +146,25 @@ function Pessoas() {
         value={Endereco}
         onChange={(event) => setEndereco(event.target.value)}
       />
-      <label> Número:</label>
+      <label> Número: </label>
       <input
         type="text"
         value={Numero}
         onChange={(event) => setNumero(event.target.value)}
       />
-      <label> Complemento:</label>
+      <label> Complemento: </label>
       <input
         type="text"
         value={Complemento}
         onChange={(event) => setComplemento(event.target.value)}
       />
-      <label> Telefone:</label>
+      <label> Telefone: </label>
       <input
         type="text"
         value={Telefone}
         onChange={(event) => setTelefone(event.target.value)}
       />
-      <label> Email:</label>
+      <label> Email: </label>
       <input
         type="text"
         value={Email}
@@ -171,6 +175,7 @@ function Pessoas() {
         <button onClick={addCadastro}>Cadastrar</button>
         <button onClick={handleCancel}>Cancelar</button>
       </div>
+      {mensagem && <p>{mensagem}</p>}
     </div>
   );
 }

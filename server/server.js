@@ -106,6 +106,7 @@ app.post("/createVendas", (req, res) => {
         }
     );
 
+    //db.query("INSERT INTO venda_itens (id_venda, id_produto, qtde, vr_venda) VALUES (?, ?, ?, ?)", [null,])
 });
 
 app.get("/cidades", (req, res) => {
@@ -149,7 +150,7 @@ app.get("/pessoasv", (req, res) => {
 });
 
 app.get("/produtos", (req, res) => {
-    db.query("SELECT nome FROM produto", (err, result) => {
+    db.query("SELECT id, nome FROM produto", (err, result) => {
         if (err) {
             console.log(err);
         } else {

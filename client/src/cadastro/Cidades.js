@@ -5,7 +5,7 @@ function Cidades() {
   const [ID, setID] = useState(0);
   const [Nome, setNome] = useState("");
   const [Sigla, setSigla] = useState("");
-
+  const [mensagem, setMensagem] = useState("");
 
   const handleCancel = () => {
     setID(0);
@@ -22,26 +22,30 @@ function Cidades() {
         Sigla: Sigla
       })
       .then(() => {
-        console.log("sucesso");
+        setMensagem("Cidade cadastrado com sucesso!");
+      })
+      .catch((error) => {
+        console.error("Erro ao cadastrar o cidade:", error);
+        setMensagem("Erro ao cadastrar o cidade");
       });
   };
 
   return (
     <div>
       <div className="CadastroCidade">
-        <label> ID:</label>
+        <label> ID da Cidade:</label>
         <input
           type="number"
           value={ID}
           onChange={(event) => setID(event.target.value)}
         />
-        <label> Nome:</label>
+        <label> Nome da Cidade:</label>
         <input
           type="text"
           value={Nome}
           onChange={(event) => setNome(event.target.value)}
         />
-        <label> Sigla: </label>
+        <label> Sigla UF: </label>
         <input
           type="text"
           value={Sigla}
@@ -51,7 +55,7 @@ function Cidades() {
           <button onClick={addCadastro}>Cadastrar</button>
           <button onClick={handleCancel}>Cancelar</button>
         </div>
-
+        {mensagem && <p>{mensagem}</p>}
 
       </div>
 

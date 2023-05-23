@@ -4,33 +4,6 @@ import Select from "react-select";
 import '../css/Vendas.css';
 
 
-function ProdutoSelector({ onSelect }) {
-  const [Produto, setProduto] = useState("");
-  const [ValorUnitario, setValorUnitario] = useState(0);
-
-  const handleSelect = () => {
-    if (!Produto || ValorUnitario <= 0) {
-      console.log("Por favor, selecione um produto válido e informe o valor unitário.");
-      return;
-    }
-
-    onSelect({ Produto, ValorUnitario });
-    setProduto("");
-    setValorUnitario(0);
-  };
-
-  return (
-    <div>
-      <label>Produto:</label>
-      <input
-        type="text"
-        value={Produto}
-        onChange={(event) => setProduto(event.target.value)}
-      />
-    </div>
-  );
-}
-
 function Vendas() {
   const [ID, setID] = useState(0);
   const [DT_venda, setDT_venda] = useState("");
@@ -45,7 +18,7 @@ function Vendas() {
   const [SubTotalEditable, setSubTotalEditable] = useState(0);
   const [vendasGuardadas, setVendasGuardadas] = useState([]);
   const [TotalVenda, setTotalVenda] = useState(0);
-
+  const [mensagem, setMensagem] = useState("");
   useEffect(() => {
     axios.get("http://localhost:3001/pessoasv").then((response) => {
       const dadosPessoas = response.data.map((pessoa) => ({
@@ -96,9 +69,14 @@ function Vendas() {
     setVendasGuardadas([...vendasGuardadas, venda]);
     setTotalVenda(TotalVenda + SubTotalEditable);
 
-    axios.post("http://localhost:3001/createVendas", venda).then(() => {
-      console.log("sucesso");
-    });
+    axios.post("http://localhost:3001/createVendas", venda)
+      .then(() => {
+        setMensagem("Venda registrada com sucesso!");
+      })
+      .catch((error) => {
+        console.error("Erro ao cadastrar a venda:", error);
+        setMensagem("Erro ao cadastrar a venda");
+      });
   };
 
   const handleQuantidadeChange = (event) => {
@@ -138,7 +116,7 @@ function Vendas() {
   return (
     <div>
       <div className="CadastroVendas">
-        <label>ID:</label>
+        <label>ID da venda:</label>
         <input
           type="number"
           value={ID}
@@ -197,6 +175,7 @@ function Vendas() {
           <button onClick={() => addCadastro(Produto)}>Cadastrar</button>
           <button onClick={handleCancel}>Cancelar</button>
         </div>
+        {mensagem && <p>{mensagem}</p>}
       </div>
     </div>
   );

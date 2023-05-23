@@ -5,6 +5,7 @@ function Produtos() {
   const [ID, setID] = useState(0);
   const [Nome, setNome] = useState("");
   const [VR_venda, setVR_venda] = useState("");
+  const [mensagem, setMensagem] = useState("");
 
   const handleCancel = () => {
     setID(0);
@@ -21,20 +22,24 @@ function Produtos() {
         VR_venda: VR_venda
       })
       .then(() => {
-        console.log("sucesso");
+        setMensagem("Produto cadastrado com sucesso!");
+      })
+      .catch((error) => {
+        console.error("Erro ao cadastrar o produto:", error);
+        setMensagem("Erro ao cadastrar o produto");
       });
   };
 
   return (
     <div>
       <div className="CadastroProdutos">
-        <label> ID:</label>
+        <label> ID do produto: </label>
         <input
           type="number"
           value={ID}
           onChange={(event) => setID(event.target.value)}
         />
-        <label> Nome:</label>
+        <label> Nome do produto:</label>
         <input
           type="text"
           value={Nome}
@@ -50,7 +55,7 @@ function Produtos() {
           <button onClick={addCadastro}>Cadastrar</button>
           <button onClick={handleCancel}>Cancelar</button>
         </div>
-
+        {mensagem && <p>{mensagem}</p>}
       </div>
 
     </div>
