@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-
+import '../css/Bairros.css'
 function Bairros() {
   const [ID, setID] = useState(0);
   const [Nome, setNome] = useState("");

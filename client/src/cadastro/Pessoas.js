@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-import "../App.css";
+import "../css/Pessoas.css";
 import axios from "axios";
-import Select from 'react-select';
+import Select from "react-select";
+import "../css/Pessoas.css";
+
 function Pessoas() {
   const [Nome, setNome] = useState("");
   const [ID, setID] = useState(0);
@@ -49,10 +51,23 @@ function Pessoas() {
     setEmail("");
   };
 
-  const addCadastro = () => {
+  const handleCidadeChange = (selectedOption) => {
+    setCidade(selectedOption);
+    setCidadeManual(selectedOption ? selectedOption.label : "");
+  };
 
-    const bairroSelecionado = bairroManual ? bairroManual : (Bairro && Bairro.value);
-    const cidadeSelecionada = cidadeManual ? cidadeManual : (Cidade && Cidade.value);
+  const handleBairroChange = (selectedOption) => {
+    setBairro(selectedOption);
+    setBairroManual(selectedOption ? selectedOption.label : "");
+  };
+
+  const addCadastro = () => {
+    const bairroSelecionado = bairroManual
+      ? bairroManual
+      : Bairro && Bairro.value;
+    const cidadeSelecionada = cidadeManual
+      ? cidadeManual
+      : Cidade && Cidade.value;
 
     if (!bairroSelecionado || !cidadeSelecionada) {
       console.log("Por favor, selecione um bairro e uma cidade válidos.");
@@ -77,7 +92,6 @@ function Pessoas() {
       });
   };
 
-
   return (
     <div className="CadastroContent">
       <label> Nome:</label>
@@ -95,27 +109,26 @@ function Pessoas() {
       <label> Cidade:</label>
       <input
         type="text"
-        value={cidadeManual}
+        value={cidadeManual || (Cidade && Cidade.label) || ""}
         onChange={(event) => setCidadeManual(event.target.value)}
       />
       <Select
         options={opcoesCidades}
         value={Cidade}
-        onChange={(selectedOption) => setCidade(selectedOption)}
+        onChange={handleCidadeChange}
       />
 
       <label> Bairro:</label>
       <input
         type="text"
-        value={bairroManual}
+        value={bairroManual || (Bairro && Bairro.label) || ""}
         onChange={(event) => setBairroManual(event.target.value)}
       />
       <Select
         options={opcoesBairros}
         value={Bairro}
-        onChange={(selectedOption) => setBairro(selectedOption)}
+        onChange={handleBairroChange}
       />
-
 
       <label> CEP:</label>
       <input
@@ -160,7 +173,6 @@ function Pessoas() {
       </div>
     </div>
   );
-
 }
 
 export default Pessoas;

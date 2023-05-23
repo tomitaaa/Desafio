@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Select from "react-select";
+import '../css/Vendas.css';
+
 
 function ProdutoSelector({ onSelect }) {
   const [Produto, setProduto] = useState("");

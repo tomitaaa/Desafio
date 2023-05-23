@@ -1,0 +1,42 @@
+.CadastroProdutos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+    margin: 0 auto;
+  }
+  
+  .CadastroProdutos label {
+    margin-bottom: 10px;
+  }
+  
+  .CadastroProdutos input {
+    padding: 8px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .CadastroProdutos .Buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .CadastroProdutos button {
+    padding: 10px 16px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .CadastroProdutos button:hover {
+    background-color: #45a049;
+  }
+  

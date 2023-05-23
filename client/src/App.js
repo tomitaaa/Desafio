@@ -1,9 +1,8 @@
 import { useState } from "react";
 import "./App.css";
-import axios from "axios";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Pessoas from "./cadastro/Pessoas";
 import Dropdown from 'react-bootstrap/Dropdown';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Bairros from "./cadastro/Bairros";
 import Cidades from "./cadastro/Cidades";
 import Produtos from "./cadastro/Produtos";

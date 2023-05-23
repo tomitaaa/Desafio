@@ -1,0 +1,64 @@
+.CadastroVendas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 400px;
+    margin: 0 auto;
+  }
+  
+  .CadastroVendas label {
+    margin-bottom: 10px;
+  }
+  
+  .CadastroVendas input {
+    padding: 8px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .CadastroVendas .Buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .CadastroVendas button {
+    padding: 10px 16px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .CadastroVendas button:hover {
+    background-color: #45a049;
+  }
+  
+  .CadastroVendas .ProdutoSelector {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+  }
+  
+  .CadastroVendas .ProdutoSelector label {
+    margin-bottom: 10px;
+  }
+  
+  .CadastroVendas .ProdutoSelector input {
+    padding: 8px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .CadastroVendas .ProdutoSelector button {
+    margin-top: 10px;
+  }
+  
