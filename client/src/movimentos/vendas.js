@@ -37,7 +37,9 @@ function Vendas() {
   const [Pessoa, setPessoa] = useState("");
   const [opcoesPessoas, setOpcoesPessoas] = useState([]);
   const [pessoaManual, setPessoaManual] = useState("");
-  const [Produtos, setProdutos] = useState([]);
+  const [Produto, setProduto] = useState("");
+  const [opcoesProdutos, setOpcoesProdutos] = useState([]);
+  const [produtoManual, setProdutoManual] = useState("");
   const [Quantidade, setQuantidade] = useState(0);
   const [ValorUnitario, setValorUnitario] = useState(0);
   const [SubTotalEditable, setSubTotalEditable] = useState(0);
@@ -54,12 +56,23 @@ function Vendas() {
     });
   }, []);
 
+  useEffect(() => {
+    axios.get("http://localhost:3001/produtos").then((response) => {
+      const dadosProdutos = response.data.map((produto) => ({
+        label: produto.nome,
+        value: produto.id,
+      }));
+      setOpcoesProdutos(dadosProdutos);
+    });
+  }, []);
+
   const handleCancel = () => {
     setID(0);
     setDT_venda("");
     setPessoa("");
     setPessoaManual("");
-    setProdutos([]);
+    setProduto("");
+    setProdutoManual("");
     setQuantidade(0);
     setValorUnitario(0);
     setSubTotalEditable(0);
@@ -75,6 +88,7 @@ function Vendas() {
       ID: ID,
       DT_venda: DT_venda,
       Pessoa: pessoaSelecionada,
+      Produto: produtoManual || Produto.label,
       Quantidade: Quantidade,
       SubTotal: SubTotalEditable,
     };
@@ -107,6 +121,20 @@ function Vendas() {
     setTotalVenda(novoTotalVenda);
   }, [Quantidade, ValorUnitario, vendasGuardadas]);
 
+  const handlePessoaChange = (selectedOption) => {
+    setPessoa(selectedOption);
+    if (selectedOption) {
+      setPessoaManual(selectedOption.label);
+    }
+  };
+
+  const handleProdutoChange = (selectedOption) => {
+    setProduto(selectedOption);
+    if (selectedOption) {
+      setProdutoManual(selectedOption.label);
+    }
+  };
+
   return (
     <div>
       <div className="CadastroVendas">
@@ -131,9 +159,19 @@ function Vendas() {
         <Select
           options={opcoesPessoas}
           value={Pessoa}
-          onChange={(selectedOption) => setPessoa(selectedOption)}
+          onChange={handlePessoaChange}
         />
-        <ProdutoSelector onSelect={addCadastro} />
+        <label>Produto:</label>
+        <input
+          type="text"
+          value={produtoManual}
+          onChange={(event) => setProdutoManual(event.target.value)}
+        />
+        <Select
+          options={opcoesProdutos}
+          value={Produto}
+          onChange={handleProdutoChange}
+        />
         <label>Quantidade:</label>
         <input
           type="number"
@@ -156,7 +194,7 @@ function Vendas() {
         <label>Total da Venda:</label>
         <input type="text" value={TotalVenda} readOnly />
         <div className="Buttons">
-          <button onClick={addCadastro}>Cadastrar</button>
+          <button onClick={() => addCadastro(Produto)}>Cadastrar</button>
           <button onClick={handleCancel}>Cancelar</button>
         </div>
       </div>
