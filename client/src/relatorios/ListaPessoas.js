@@ -4,27 +4,28 @@ import "../css/ListaP.css";
 
 function ListaPessoas() {
   const [listaCadastro, setListaCadastro] = useState([]);
-
   const [parteNome, setParteNome] = useState("");
   const [isNomeEnabled, setIsNomeEnabled] = useState(false);
-
   const [cidade, setCidade] = useState("");
   const [isCidadeEnabled, setIsCidadeEnabled] = useState(false);
-
   const [bairro, setBairro] = useState("");
   const [isBairroEnabled, setIsBairroEnabled] = useState(false);
 
+  const buscarPessoasPorCidade = () => {
+    axios
+      .get(`http://localhost:3001/buscarPessoasPorCidade/${cidade}`)
+      .then((response) => {
+        setListaCadastro(response.data);
+      });
+  };
 
-  const [isBuscarEnabled, setIsBuscarEnabled] = useState(false);
-  useEffect(() => {
-    if (parteNome !== "") {
-      buscarPessoas();
-    }
-  }, [parteNome]);
-
-
-
-
+  const buscarPessoasPorBairro = () => {
+    axios
+      .get(`http://localhost:3001/buscarPessoasPorBairro/${bairro}`)
+      .then((response) => {
+        setListaCadastro(response.data);
+      });
+  };
   const buscarPessoas = () => {
     if (parteNome !== "") {
       axios
@@ -42,6 +43,30 @@ function ListaPessoas() {
       setListaCadastro(response.data);
     });
   };
+
+
+  useEffect(() => {
+    if (parteNome !== "") {
+      buscarPessoas();
+    }
+  }, [parteNome]);
+
+
+  useEffect(() => {
+    if (cidade !== "") {
+      buscarPessoasPorCidade();
+    }
+  }, [cidade]);
+
+
+  useEffect(() => {
+    if (bairro !== "") {
+      buscarPessoasPorBairro();
+    }
+  }, [bairro]);
+
+
+
 
   return (
     <div>

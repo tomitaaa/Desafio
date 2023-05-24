@@ -172,6 +172,37 @@ app.get("/buscarPessoas/:parteNome", (req, res) => {
     });
 });
 
+app.get("/buscarPessoasPorCidade/:cidade", (req, res) => {
+    const cidade = req.params.cidade;
+
+    db.query(
+        "SELECT * FROM pessoa WHERE Cidade LIKE ?",
+        `%${cidade}%`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
+app.get("/buscarPessoasPorBairro/:bairro", (req, res) => {
+    const bairro = req.params.bairro;
+
+    db.query(
+        "SELECT * FROM pessoa WHERE Bairro LIKE ?",
+        `%${bairro}%`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
 
 
 
