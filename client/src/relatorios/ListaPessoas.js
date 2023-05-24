@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../css/ListaP.css";
 
@@ -13,6 +13,29 @@ function ListaPessoas() {
 
   const [bairro, setBairro] = useState("");
   const [isBairroEnabled, setIsBairroEnabled] = useState(false);
+
+
+  const [isBuscarEnabled, setIsBuscarEnabled] = useState(false);
+  useEffect(() => {
+    if (parteNome !== "") {
+      buscarPessoas();
+    }
+  }, [parteNome]);
+
+
+
+
+  const buscarPessoas = () => {
+    if (parteNome !== "") {
+      axios
+        .get(`http://localhost:3001/buscarPessoas/${parteNome}`)
+        .then((response) => {
+          setListaCadastro(response.data);
+        });
+    }
+  };
+
+
 
   const getPessoas = () => {
     axios.get("http://localhost:3001/listarPessoas").then((response) => {
@@ -71,7 +94,10 @@ function ListaPessoas() {
       </div>
 
       <div className="Listagem">
-        <button onClick={getPessoas}>Listar Pessoas</button>
+        <div>
+          <button onClick={getPessoas}>Listar Pessoas</button>
+
+        </div>
         {listaCadastro.map((val, key) => (
           <div className="Pessoa" key={val.ID}>
             <div>
