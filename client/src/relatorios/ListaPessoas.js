@@ -65,9 +65,6 @@ function ListaPessoas() {
     }
   }, [bairro]);
 
-
-
-
   return (
     <div>
       <div className="Formulario">

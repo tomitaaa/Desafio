@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mysql = require("mysql");
 const cors = require("cors");
+const bodyParser = require('body-parser');
 
 app.use(cors());
 app.use(express.json());
@@ -56,6 +57,32 @@ app.post("/createCidades", (req, res) => {
 
 });
 
+app.post('/createVendaItens', (req, res) => {
+    const id_venda = req.body.id_venda;
+    const id_produto = req.body.id_produto;
+    const qtde = req.body.qtde;
+    const vr_venda = req.body.vr_venda;
+
+    db.query(
+        'INSERT INTO venda_itens (id_venda, id_produto, qtde, vr_venda) VALUES (?, ?, ?, ?)',
+        [id_venda, id_produto, qtde, vr_venda],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send('Erro ao criar itens de venda.');
+            } else {
+                res.send('Itens de venda criados com sucesso.');
+            }
+        }
+    );
+});
+
+
+
+
+
+
+
 app.post("/createBairros", (req, res) => {
     const ID = req.body.ID;
     const Nome = req.body.Nome;
@@ -95,9 +122,23 @@ app.post("/createVendas", (req, res) => {
     const ID = req.body.ID;
     const DT_venda = req.body.DT_venda;
     const Pessoa = req.body.Pessoa;
+
     db.query(
-        "INSERT INTO venda (ID, dt_venda, pessoa) VALUES (?, ?, ?)",
-        [ID, DT_venda, Pessoa], (err, result) => {
+        "INSERT INTO venda (ID, dt_venda, pessoa_id) VALUES (?, ?, ?)",
+        [ID, DT_venda, Pessoa.value], (err, result) => {
+            if (err) {
+                console.log(err);
+            }
+        }
+    );
+
+    const produto = req.body.venda_item[0].produto;
+    const quantidade = req.body.venda_item[0].quantidade;
+    const valor_venda = req.body.venda_item[0].valor_venda;
+
+    db.query(
+        "INSERT INTO venda_itens (id_venda, id_produto, qtde, vr_venda) VALUES (?, ?, ?, ?)",
+        [ID, produto.value, quantidade, valor_venda], (err, result) => {
             if (err) {
                 console.log(err);
             } else {
@@ -138,7 +179,7 @@ app.get("/listarPessoas", (req, res) => {
 });
 
 app.get("/pessoasv", (req, res) => {
-    db.query("SELECT nome FROM pessoa", (err, result) => {
+    db.query("SELECT ID, nome FROM pessoa", (err, result) => {
         if (err) {
             console.log(err);
         } else {
@@ -148,7 +189,7 @@ app.get("/pessoasv", (req, res) => {
 });
 
 app.get("/produtos", (req, res) => {
-    db.query("SELECT id, nome FROM produto", (err, result) => {
+    db.query("SELECT id, nome, vr_venda FROM produto", (err, result) => {
         if (err) {
             console.log(err);
         } else {

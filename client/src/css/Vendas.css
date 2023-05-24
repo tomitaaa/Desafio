@@ -10,6 +10,14 @@
     margin: 0 auto;
   }
   
+  .CadastroVendas .itens {
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    width: 300px;
+    margin-top: 20px;
+    padding: 10px;
+  }
+
   .CadastroVendas label {
     margin-bottom: 10px;
   }
