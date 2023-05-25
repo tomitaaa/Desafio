@@ -77,12 +77,6 @@ app.post('/createVendaItens', (req, res) => {
     );
 });
 
-
-
-
-
-
-
 app.post("/createBairros", (req, res) => {
     const ID = req.body.ID;
     const Nome = req.body.Nome;
@@ -178,16 +172,6 @@ app.get("/listarPessoas", (req, res) => {
     });
 });
 
-app.get("/pessoasv", (req, res) => {
-    db.query("SELECT ID, nome FROM pessoa", (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    });
-});
-
 app.get("/produtos", (req, res) => {
     db.query("SELECT id, nome, vr_venda FROM produto", (err, result) => {
         if (err) {
@@ -244,9 +228,6 @@ app.get("/buscarPessoasPorBairro/:bairro", (req, res) => {
         }
     );
 });
-
-
-
 
 
 app.listen(3001, () => {

@@ -3,7 +3,7 @@ import "../css/Pessoas.css";
 import axios from "axios";
 import Select from "react-select";
 import "../css/Pessoas.css";
-
+import ListaPessoas from "./ListaPessoas";
 function Pessoas() {
   const [Nome, setNome] = useState("");
   const [ID, setID] = useState(0);
@@ -20,6 +20,11 @@ function Pessoas() {
   const [opcoesBairros, setOpcoesBairros] = useState([]);
   const [opcoesCidades, setOpcoesCidades] = useState([]);
   const [mensagem, setMensagem] = useState("");
+
+  const [mostrarLista, setMostrarLista] = useState(false);
+  const handleListar = () => {
+    setMostrarLista(true);
+  };
   useEffect(() => {
     axios.get("http://localhost:3001/bairros").then((response) => {
       const dadosBairros = response.data.map((bairro) => ({
@@ -111,11 +116,6 @@ function Pessoas() {
         onChange={(event) => setID(event.target.value)}
       />
       <label> Cidade :</label>
-      <input
-        type="text"
-        value={cidadeManual || (Cidade && Cidade.label) || ""}
-        onChange={(event) => setCidadeManual(event.target.value)}
-      />
       <Select
         options={opcoesCidades}
         value={Cidade}
@@ -123,11 +123,6 @@ function Pessoas() {
       />
 
       <label> Bairro: </label>
-      <input
-        type="text"
-        value={bairroManual || (Bairro && Bairro.label) || ""}
-        onChange={(event) => setBairroManual(event.target.value)}
-      />
       <Select
         options={opcoesBairros}
         value={Bairro}
@@ -173,9 +168,11 @@ function Pessoas() {
 
       <div className="Buttons">
         <button onClick={addCadastro}>Cadastrar</button>
+        <button onClick={handleListar}>Listar</button>
         <button onClick={handleCancel}>Cancelar</button>
       </div>
       {mensagem && <p>{mensagem}</p>}
+      {mostrarLista && <ListaPessoas />}
     </div>
   );
 }
